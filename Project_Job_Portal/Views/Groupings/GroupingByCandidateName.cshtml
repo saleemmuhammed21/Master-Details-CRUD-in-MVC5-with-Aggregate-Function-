@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Project_Job_Portal.ViewModels.GroupedData>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>Grouping by name</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Data</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>
+                    @x.Key
+                </td>
+                <td>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Degree</th>
+                                <th>Institute</th>
+                                <th>Passing Year</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in x.Data)
+                            {
+                                <tr>
+                                    <td>@s.Degree</td>
+                                    <td>@s.Institute</td>
+                                    <td>@s.PassingYear</td>
+                                    <td>@s.Result</td>
+                                </tr>
+                            }
+                            
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

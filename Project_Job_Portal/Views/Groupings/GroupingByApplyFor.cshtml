@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Project_Job_Portal.ViewModels.GroupedData>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>Grouping by ApplyFor</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Data</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>
+                    @x.Key
+                </td>
+                <td>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Candidate Name</th>
+                                <th>Birthday</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in x.candidates)
+                            {
+                               <tr>
+                                   <td>@s.CandidateName</td>
+                                   <td>@s.BirthDate.ToString("yyyy-MM-dd")</td>        
+                               </tr>
+                            }
+                            
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

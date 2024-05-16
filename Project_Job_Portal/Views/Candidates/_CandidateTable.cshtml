@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Project_Job_Portal.Models.Candidate>
+@using X.PagedList
+@using X.PagedList.Mvc
+@using X.PagedList.Mvc.Common
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Image</th>
+            <th>DepartmentName</th> 
+            <th>CandidateName</th>
+            <th>BirthDate</th>
+            <th>AppliedFor</th>
+            <th>ExpectedSalary</th>
+            <th>Conditions?</th>
+            <th>...</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td style="width:40px;text-align:center">
+                    <button class="btn btn-sm show"><i class="bi bi-plus-square"></i></button>
+                    <button class="btn btn-sm hide" style="display:none"><i class="bi bi-dash-square"></i></button>
+                </td>
+                <td style="width:45px;text-align:center"><img src="~/Pictures/@s.Picture" class="rounded-circle" style="width:40px" /></td>
+                <td>@s.Department.DepartmentName</td>
+                <td>@s.CandidateName</td>
+                <td>@s.BirthDate.ToString("yyyy-MM-dd")</td>
+                <td>@s.AppliedFor</td>
+                <td>@s.ExpectedSalary</td>
+                <td>@(s.Conditions ? "Yes": "No")</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Candidates", new { id = s.CandidateId }, new { @class = "btn btn-primary btn-sm" })
+                    <button type="button" data-pk="@s.CandidateId" class="btn btn-danger btn-sm del">Delete</button>
+                </td>
+            </tr>
+            <tr style="display:none">
+                <td></td>
+                <td colspan="8">
+                    <h4>Qualifications</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Degree</th>
+                                <th>PassingYear</th>
+                                <th>Institute</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var p in s.Qualifications)
+                            {
+                                <tr>
+                                    <td>@p.Degree</td>
+                                    <td>@p.PassingYear</td>
+                                    <td>@p.Institute</td>
+                                    <td>@p.Result</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="d-flex justify-content-end">
+
+    @Html.PagedListPager((IPagedList)Model, pg => Url.Action("CandidateTable", "Candidates", new { pg = pg }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+    {
+        UlElementClasses = new string[] { "pagination", "pagination-sm" },
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" },
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always
+    },
+    new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "table-div",LoadingElementId="spinner" }))
+</div>
